@@ -23,5 +23,10 @@
         "psr-0": {
             "hofi\\Test\\" : "tests"
         }
+    },
+    "scripts": {
+        "tests" : "phpunit --configuration phpunit.xml",
+        "tests:product" : "phpunit --configuration phpunit.xml --testsuite product",
+        "tests:counter" : "phpunit --configuration phpunit.xml --testsuite counter"
     }
 }

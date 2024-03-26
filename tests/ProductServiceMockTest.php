@@ -3,7 +3,7 @@
 namespace hofi\Test;
 use PHPUnit\Framework\TestCase;
 
-class ProductServiceTest extends TestCase
+class ProductServiceMockTest extends TestCase
 {
 
     private ProductRepository $repository;
@@ -11,7 +11,7 @@ class ProductServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->repository = $this->createStub(ProductRepository::class);
+        $this->repository = $this->createMock(ProductRepository::class);
         $this->service = new ProductService($this->repository);
     }
 
@@ -97,6 +97,10 @@ class ProductServiceTest extends TestCase
         $product = new Product();
         $product->setId("1");
 
+        $this->repository-expects(self::once())
+        ->method("delete");
+        ->with(self::equalTo($product));
+
         $this->repository->method("findById")->willReturn($product);
 
         $this->service->delete("1");
@@ -109,6 +113,19 @@ class ProductServiceTest extends TestCase
         $this->repository->method("findById")->willReturn(null);
 
         $this->service->delete("1");
+    }
+
+    public function testMock()
+    {
+        $product new = Product();
+        $product->setId("1");
+
+        $this->repository->expects(self::once())
+        ->method("findbyId");
+        ->willReturn($product);
+
+        $result = $this->repository->findById("1");
+        self::assertSame($product, $result);
     }
 }
 
